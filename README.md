@@ -1,20 +1,76 @@
-{
-  "repository": "API-Testing-with-Postman",
-  "description": "Postman collection for API testing of the public ReqRes API, demonstrating manual and automated test scripts for user list, user creation, login success/failure, and login security checks.",
-  "files": [
-    {
-      "name": "api_testing_postman_collection.json",
-      "path": "api_testing_postman_collection.json"
-    },
-    {
-      "name": "README.md",
-      "content": "# API-Testing-with-Postman\n\nThis repository contains a **Postman collection** that showcases a comprehensive API testing portfolio for the public **ReqRes** API (https://reqres.in).\n\n## What is tested?\n- **GET /users?page=2** – verifies response status, response time (< 500 ms), pagination schema and data array integrity.\n- **POST /users** – validates successful user creation (status 201) and checks returned fields (id, createdAt).\n- **POST /login (successful)** – ensures a 200 status and that a JWT‑like token is returned.\n- **POST /login (missing password)** – expects a 400 status and a clear error message (`\"Missing password\"`).\n\n## How to run the tests\n1. Install **Postman** (free version is enough).\n2. Click **Import** → **Upload Files** and select `api_testing_postman_collection.json` from this repository.\n3. The collection will appear under **Collections**.\n4. Open a request (e.g., *Login – Successful*) and press **Send**.\n5. Switch to the **Tests** tab – the pre‑written JavaScript assertions will automatically run and display **PASS/FAIL** results in the **Test Results** panel.\n\n## Why this collection matters\n- Demonstrates the use of **test scripts** (written in JavaScript) to assert status codes, response times, and JSON schema.\n- Shows **negative testing** (missing password) and how to validate error messages.\n- Provides a reusable template for future API testing projects – just change the base URL and payloads.\n\nFeel free to fork this repo, add more endpoints, or integrate it into CI pipelines using Newman.\n",
-      "type": "markdown"
-    }
-  ],
-  "setupInstructions": [
-    "Create a new repository on GitHub named `API-Testing-with-Postman`.",
-    "Add the two files listed above (the Postman collection JSON and README.md).",
-    "Commit and push to the remote repository."
-  ]
-}
+# API Testing with Postman 🧪
+
+This repository contains a **Postman collection** showcasing a hands-on API testing portfolio targeting the public [ReqRes REST API](https://reqres.in).
+
+---
+
+## 📋 What is Tested?
+
+| # | Endpoint | Method | Test Focus |
+|---|---|---|---|
+| 1 | `/api/users?page=2` | GET | Status code, response time, pagination schema, data array validation |
+| 2 | `/api/users` | POST | User creation (201 Created), returned fields (`id`, `createdAt`) |
+| 3 | `/api/login` | POST | Successful login, JWT token returned |
+| 4 | `/api/login` | POST | Negative test – missing password → 400 error message validation |
+
+---
+
+## 🛠️ Tools & Technologies
+
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=Postman&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![JSON](https://img.shields.io/badge/JSON-000000?style=flat&logo=json&logoColor=white)
+
+---
+
+## 🚀 How to Run the Tests
+
+1. **Download** the `api_testing_postman_collection.json` file from this repository.
+2. Open **Postman** → Click **Import** → **Upload Files** → select the downloaded `.json` file.
+3. The collection **"ReqRes API Testing Portfolio - bogs04"** will appear in your Collections sidebar.
+4. Click on any request (e.g. *Login – Successful*) and press **Send**.
+5. Go to the **Tests** tab in the response panel → view **PASS/FAIL** results for each assertion.
+
+> 💡 **Tip:** Use **Collection Runner** (▶ Run button) to execute all requests in sequence and see a full test report at once.
+
+---
+
+## ✅ Test Scripts Overview
+
+Each request contains pre-written **JavaScript assertions** in the `Tests` tab that automatically validate:
+
+- ✔ **HTTP Status Code** – e.g. `200 OK`, `201 Created`, `400 Bad Request`
+- ✔ **Response Time** – must be below `500ms`
+- ✔ **Response Schema** – verifies required fields exist (`id`, `email`, `token`, etc.)
+- ✔ **Error Messages** – checks exact error text for negative test cases
+
+### Sample Test Script (Login – Successful)
+```javascript
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Response contains token", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property('token');
+    pm.expect(jsonData.token).to.be.a('string');
+});
+```
+
+---
+
+## 📁 Repository Structure
+
+```
+API-Testing-with-Postman/
+│
+├── api_testing_postman_collection.json   # Full Postman collection with test scripts
+└── README.md                             # This file
+```
+
+---
+
+## 👤 Author
+
+**Phung Van Anh** – Manual QA/QC Tester  
+📧 vananh130804@gmail.com | 🔗 [github.com/bogs04](https://github.com/bogs04)
